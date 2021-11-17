@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-6">
+        <form action="/addMusic" method="post" enctype="multipart/form-data">
+            <input type="submit" id="Create" value="Create" class="btn btn-primary" />
+            <button type="button" class="btn btn-primary" id="selectMusic">Select Music</button>
+            <input id="file-input" name="music" type="file" style="display: none;" accept="audio/*" />
+            <div class="form-group none">
+                <label class="control-label">Name</label>
+                <input id="music_name" class="form-control propertiesname" value="Name" disabled />
+                <input id="music_val" class="form-control propertiesvalue" disabled/>
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Quality</label>
+                <select class="form-control" id="category_select">
+                    <option value="32">32 kbit/s – generally acceptable only for speech.</option>
+                    <option value="0">96 kbit/s – generally used for speech or low-quality streaming.</option>
+                    <option value="0">128 kbit/s – mid-range bitrate quality.</option>
+                    <option value="0">160 kbit/s – mid-range bitrate quality.</option>
+                    <option value="0">192 kbit/s – medium quality bitrate.</option>
+                    <option value="0">256 kbit/s – a commonly used high-quality bitrate.</option>
+                    <option value="0">320 kbit/s – highest level supported by the MP3 standard.</option>
+                </select>
+                <span class="text-danger"></span>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <form class="props">
+        </form>
+    </div>
+</div>
