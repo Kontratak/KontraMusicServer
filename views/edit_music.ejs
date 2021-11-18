@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-md-6">
-        <form action="/addMusic" method="post" enctype="multipart/form-data">
+        <form action="/editMusic" method="post" enctype="multipart/form-data">
             <input type="submit" id="Create" value="Create" class="btn btn-primary" />
             <button type="button" class="btn btn-primary" id="selectMusic">Select Music</button>
             <input id="file-input" name="music" type="file" style="display: none;" accept="audio/*" />
             <div class="form-group none">
                 <label class="control-label">Name</label>
                 <input id="music_name" class="form-control propertiesname" value="Name" disabled />
-                <input id="music_val" class="form-control propertiesvalue" disabled/>
+                <input id="music_val" class="form-control propertiesvalue" value="<%= music.props.title %>"/>
                 <span class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,4 +30,4 @@
         </form>
     </div>
 </div>
-<script src="/js/add_music.js"></script>
+<script src="/js/edit_music.js"></script>

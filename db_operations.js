@@ -1,8 +1,11 @@
-var MongoClient = require('mongodb').MongoClient;
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
 var url = "mongodb://localhost:27017/";
 
 exports.getFromCollection = getFromCollection;
 exports.insertToCollection = insertToCollection;
+exports.removeFromCollectionById = removeFromCollectionById;
+exports.getFromCollectionbyId = getFromCollectionbyId;
 
 var dbo;
 MongoClient.connect(url, function(err, db) {
@@ -19,10 +22,28 @@ async function getFromCollection(collectionName){
     })
 }
 
+async function getFromCollectionbyId(collectionName,id){
+    var myquery = { _id: new mongodb.ObjectID(id) };
+    return new Promise((resolve,reject) =>{
+        dbo.collection(collectionName).findOne({},myquery,(err, result) => {
+            if (err) throw err;
+            resolve(result);
+        });
+    })
+}
+
 async function insertToCollection(collectionName,data){
     dbo.collection(collectionName).insertOne(data, function(err, res) {
         if (err) throw err;
         console.log("1 document inserted");
+    });
+}
+
+async function removeFromCollectionById(collectionName,id){
+    var myquery = { _id: new mongodb.ObjectID(id) };
+    dbo.collection(collectionName).deleteOne(myquery, function(err, obj) {
+        if (err) throw err;
+        console.log("1 document deleted");
     });
 }
 
