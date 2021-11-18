@@ -32,6 +32,6 @@ function edit(id){
 
 function remove(id){
     $.get(`/removeMusic?id=${id}`,(data) =>{
-        console.log(data);
+        location.reload();
     })
 }

@@ -103,12 +103,20 @@ app.get('/ListMusics', (req, res) => {
     //res.sendFile(__dirname + '/views/list_musics.html');
 });
 
-app.get('/removeMusic', (req,res) =>{
+app.get('/removeMusic', async (req,res) =>{
+    var music = await dbops.getFromCollectionbyId("Musics",req.query.id);
+    try {
+        fs.unlinkSync(musicfolder+music.path);
+        fs.unlinkSync("."+music.props.picture[0].data);
+        //file removed
+      } catch(err) {
+        console.error(err)
+    }
     dbops.removeFromCollectionById("Musics",req.query.id)
+    res.redirect(req.get('referer'));
 });
 
 app.get('/editMusic', (req,res) =>{
-    
 });
 
 
