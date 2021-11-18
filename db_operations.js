@@ -6,6 +6,7 @@ exports.getFromCollection = getFromCollection;
 exports.insertToCollection = insertToCollection;
 exports.removeFromCollectionById = removeFromCollectionById;
 exports.getFromCollectionbyId = getFromCollectionbyId;
+exports.removeAllFromCollection = removeAllFromCollection;
 
 var dbo;
 MongoClient.connect(url, function(err, db) {
@@ -44,6 +45,13 @@ async function removeFromCollectionById(collectionName,id){
     dbo.collection(collectionName).deleteOne(myquery, function(err, obj) {
         if (err) throw err;
         console.log("1 document deleted");
+    });
+}
+
+async function removeAllFromCollection(collectionName){
+    dbo.collection(collectionName).remove({}, function(err, obj) {
+        if (err) throw err;
+        console.log("Document Emptied");
     });
 }
 

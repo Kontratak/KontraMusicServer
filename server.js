@@ -10,6 +10,7 @@ const expressLayouts = require('express-ejs-layouts')
 const fileUpload = require('express-fileupload');
 const { url } = require('inspector');
 var path = require("path");
+const spawn = require('await-spawn')
 
 var app = express()
 
@@ -40,9 +41,9 @@ app.get('/getMusics',async (req,res) => {
 })
 
 
-async function getFileProp(file){
-    let result = await getMetaData(file);
-    var fileprops = {path : file,props : result};
+async function getFileProp(file,bitrate){
+    let result = await getMetaData(file,bitrate);
+    var fileprops = {path : bitrate + "_"+ file,props : result};
     return fileprops;
 }
 
@@ -63,6 +64,7 @@ async function getMetaData(file){
             console.log('File is created successfully.');
         });
         metadata.common.picture[0].data = filepath.slice(1,filepath.length);
+        fs.unlinkSync(musicfolder+file);
         return metadata["common"];
       } catch (error) {
         console.error(error.message);
@@ -90,9 +92,12 @@ app.get('/EditMusic', async (req, res) => {
   
 app.post('/addMusic', async function(req, res) {
     let music = req.files.music;
-    console.log("music is uploading");
-    await music.mv('./musics/' + music.name);
-    let result = await getFileProp(music.name);
+    let bitrate = req.body.quality + "K";
+    console.log("Music is Uploading");
+    await music.mv(musicfolder + music.name);
+    let convert = await spawn('ffmpeg', ['-i', './musics/' + music.name , '-b:a', bitrate, './musics/'+bitrate +"_" + music.name]);
+    console.log("Music Bitrate Adjusted");
+    let result = await getFileProp(music.name,bitrate);
     dbops.insertToCollection("Musics",result);
     console.log("music uploaded");
     res.redirect(`/AddMusic`);
@@ -117,6 +122,11 @@ app.get('/removeMusic', async (req,res) =>{
 });
 
 app.get('/editMusic', (req,res) =>{
+});
+
+app.get('/removeAll', (req,res) =>{
+    dbops.removeAllFromCollection("Musics");
+    res.redirect(`/ListMusics`);
 });
 
 
