@@ -26,7 +26,9 @@ router.post('/addMusic', async function(req, res) {
     let bitrate = req.body.quality + "K";
     console.log("Music is Uploading");
     await music.mv(musicfolder + music.name);
-    let convert = await spawn('ffmpeg', ['-i', './musics/' + music.name , '-b:a', bitrate, './musics/'+bitrate +"_" + music.name]);
+    //convert to bitrate user defined
+    await spawn('ffmpeg', ['-i', './musics/' + music.name , '-b:a', bitrate, './musics/'+bitrate +"_" + music.name]);
+    //--end of convert to bitrate user defined
     console.log("Music Bitrate Adjusted");
     let result = await getFileProp(music.name,bitrate);
     dbops.insertToCollection("Musics",result);
