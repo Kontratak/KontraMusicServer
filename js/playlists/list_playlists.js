@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var table = $('#music_list').DataTable();
-    $.get('/Playlists/getPlaylists',(data) =>{
+    $.get('/api/getPlaylists',(data) =>{
         for(var i = 0; i<data.length;i++){
             var listitem = "";
             for(var j = 0; j<data[i].musics.length;j++){

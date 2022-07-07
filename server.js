@@ -4,6 +4,7 @@ const expressLayouts = require('express-ejs-layouts')
 var musics = require('./controllers/musics_controller.js');
 var playlists = require('./controllers/playlist_controller.js');
 var youtube = require('./controllers/youtube_controller.js');
+var api = require('./controllers/api_controller.js');
 const fileUpload = require('express-fileupload');
 var path = require("path");
 var app = express()
@@ -28,6 +29,7 @@ app.set('view engine', 'ejs')
 app.use('/Musics', musics);
 app.use('/Playlists', playlists);
 app.use('/Youtube', youtube);
+app.use('/api', api);
 
 
 app.get('/', (req, res) => {

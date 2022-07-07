@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var table = $('#music_list').DataTable();
-    $.get('/Musics/getMusics',(data) =>{
+    $.get('/api/getMusics',(data) =>{
         for(var i = 0; i<data.length;i++){
             table.row.add([
                 `<input type="checkbox" name="music" class="checkbox_music" value="${data[i]._id}">`,
@@ -25,7 +25,7 @@ $('#Create').on('click',()=>{
             musicids.push($this.val());
         }
     });	
-    $.post("/Playlists/addPlaylist",{musicids : JSON.stringify(musicids),playlist_name : playlist_name},()=>{
+    $.post("/api/addPlaylist",{musicids : JSON.stringify(musicids),playlist_name : playlist_name},()=>{
         location.reload();
     })
 });
