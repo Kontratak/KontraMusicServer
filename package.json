@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "alert": "^5.1.1",
     "await-spawn": "^4.0.2",
     "body-parser": "^1.19.0",
     "datatables": "^1.10.18",
@@ -7,6 +8,8 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.1",
     "express-fileupload": "^1.2.1",
+    "express-jwt": "^7.7.5",
+    "express-session": "^1.17.3",
     "ffmpeg": "^0.0.4",
     "ffmpeg-static": "^4.4.0",
     "mongodb": "^4.1.4",

@@ -7,6 +7,7 @@ exports.insertToCollection = insertToCollection;
 exports.removeFromCollectionById = removeFromCollectionById;
 exports.getFromCollectionbyId = getFromCollectionbyId;
 exports.removeAllFromCollection = removeAllFromCollection;
+exports.getFromCollectionbyProperty = getFromCollectionbyProperty;
 
 var dbo;
 MongoClient.connect(url, function(err, db) {
@@ -27,6 +28,15 @@ async function getFromCollectionbyId(collectionName,id){
     var myquery = { _id: new mongodb.ObjectID(id) };
     return new Promise((resolve,reject) =>{
         dbo.collection(collectionName).findOne({},myquery,(err, result) => {
+            if (err) throw err;
+            resolve(result);
+        });
+    })
+}
+
+async function getFromCollectionbyProperty(collectionName,property){
+    return new Promise((resolve,reject) =>{
+        dbo.collection(collectionName).findOne(property,(err, result) => {
             if (err) throw err;
             resolve(result);
         });
