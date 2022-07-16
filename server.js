@@ -24,12 +24,6 @@ app.use(fileUpload({
     createParentPath: true
 }));
 
-app.use(function (req, res, next) {
-    var filename = path.basename(req.url);
-    if (req.url.includes("musics") || req.url.includes("pictures"))
-        console.log("The file " + filename + " was requested.");
-    next();
-});
 
 app.use(express.static(__dirname))
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -51,6 +45,25 @@ app.use(
     }).unless({ path: ["/api/login","/api/register"] })
 );
 
+
+app.use(function (req, res, next) {
+    var filename = path.basename(req.url);
+    if (req.url.includes("musics") || req.url.includes("pictures"))
+        console.log("The file " + filename + " was requested.");
+
+
+    if(req.url != "/Login"){
+        if(!req.session.user){
+            console.log("UnAuth")
+            res.redirect('/Login')
+        }
+        else{
+            console.log(req.session.user)
+            next()  
+        }
+    }
+});
+
 app.use(function (err, req, res, next) {
     if (err.name === "UnauthorizedError") {
       res.status(401).send("invalid token...");
@@ -59,23 +72,22 @@ app.use(function (err, req, res, next) {
     }
 });
 
-app.use(function (req, res, next) {
-    res.locals = {
-      title : "Kontra Music Player Server",
-      logo : "./dist/images/warsaw.jpg",
-      user : session,
-    };
-    next();
- });
+// app.use(function (req, res, next) {
+//     res.locals = {
+//       title : "Kontra Music Player Server",
+//       logo : "./dist/images/warsaw.jpg",
+//       user : session,
+//     };
+//     next();
+//  });
+
+app.get('/Login', (req, res) => {
+    //res.sendFile(__dirname + '/views/index.html');,
+    res.render('index', { title: 'Index',layout : false})
+});
 
 app.get('/', (req, res) => {
-    //res.sendFile(__dirname + '/views/index.html');,
-    console.log(req.session.user)
-    if(req.session.user != undefined){
-        res.redirect(`/Musics/ListMusics`)
-    }
-    else 
-        res.render('index', { title: 'Index',layout : false})
+    res.redirect('/Login')
 });
 
 
