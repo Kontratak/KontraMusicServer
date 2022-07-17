@@ -1,12 +1,14 @@
 const mm = require('music-metadata');
 const spawn = require('await-spawn')
-const musicfolder = './musics/';
+const musicfolder = './music_storage/';
 const picturefolder = './pictures/';
 
 module.exports = {
     
     saveMusicWithAllBitrates : async function saveMusicWithAllBitrates(music,bitrate){
-        await spawn('ffmpeg', ['-i', './musics/' + music.name , '-b:a', bitrate, './musics/'+bitrate +"_" + music.name]);
+        console.log("Music is Uploading");
+        await music.mv(musicfolder + music.name);
+        await spawn('ffmpeg', ['-i', musicfolder + music.name , '-b:a', bitrate, musicfolder+bitrate +"_" + music.name]);
     },
     
     getFileProp : async function getFileProp(file,bitrate){

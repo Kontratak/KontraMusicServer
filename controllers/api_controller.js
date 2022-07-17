@@ -9,8 +9,6 @@ router.post('/addMusic', async function(req, res) {
     try {
         let music = req.files.music;
         let bitrate = req.body.quality + "K";
-        console.log("Music is Uploading");
-        await music.mv(musicfolder + music.name);
         await utils.saveMusicWithAllBitrates(music,bitrate);
         console.log("Music Bitrate Adjusted");
         let result = await utils.getFileProp(music.name,bitrate);
