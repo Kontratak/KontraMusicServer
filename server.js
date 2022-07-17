@@ -5,6 +5,7 @@ var musics = require('./controllers/musics_controller.js');
 var playlists = require('./controllers/playlist_controller.js');
 var youtube = require('./controllers/youtube_controller.js');
 var api = require('./controllers/api_controller.js');
+var auth = require('./controllers/auth_controller.js');
 const fileUpload = require('express-fileupload');
 var path = require("path");
 var session = require('express-session')
@@ -14,8 +15,9 @@ var app = express()
 app.use(session({
     secret: "0c8c0bfdf43fa68c7544fcd0b8cecd0e9fa1cf966bb5d7",
     resave: true,
+    secure : false,
     saveUninitialized: true,
-    maxAge : 60*60*100,
+    maxAge : 60 * 60 * 1000,
     cookie: { secure: true }
 }));
 
@@ -36,6 +38,7 @@ app.use('/Musics', musics);
 app.use('/Playlists', playlists);
 app.use('/Youtube', youtube);
 app.use('/api', api);
+app.use('/', auth);
 
 app.use(
     "/api",
@@ -48,19 +51,8 @@ app.use(
 
 app.use(function (req, res, next) {
     var filename = path.basename(req.url);
-    if (req.url.includes("musics") || req.url.includes("pictures"))
+    if (req.url.includes("musics") || req.url.includes("pictures")){
         console.log("The file " + filename + " was requested.");
-
-
-    if(req.url != "/Login"){
-        if(!req.session.user){
-            console.log("UnAuth")
-            res.redirect('/Login')
-        }
-        else{
-            console.log(req.session.user)
-            next()  
-        }
     }
 });
 
@@ -72,23 +64,17 @@ app.use(function (err, req, res, next) {
     }
 });
 
-// app.use(function (req, res, next) {
-//     res.locals = {
-//       title : "Kontra Music Player Server",
-//       logo : "./dist/images/warsaw.jpg",
-//       user : session,
-//     };
-//     next();
-//  });
 
-app.get('/Login', (req, res) => {
-    //res.sendFile(__dirname + '/views/index.html');,
-    res.render('index', { title: 'Index',layout : false})
-});
+app.use(function (req, res, next) {
+    res.locals = {
+      title : "Kontra Music Player Server",
+      logo : "./dist/images/warsaw.jpg",
+      user : session,
+    };
+    next();
+ });
 
-app.get('/', (req, res) => {
-    res.redirect('/Login')
-});
+
 
 
 app.listen(80,()=>{

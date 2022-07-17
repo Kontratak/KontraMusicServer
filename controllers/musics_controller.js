@@ -1,6 +1,29 @@
 var express = require('express');
 var router = express.Router();
-  
+const utils = require('../js/utilities/utils')
+
+router.all("/*",function (req, res, next) {
+    var store = req.sessionStore
+    var isLoggedIn = false
+    for(var sid in store.sessions){ 
+        var ses = JSON.parse(store.sessions[sid])
+        if(ses.user == null) {         
+            store.destroy(sid, function (err, dat) {});      
+        }
+        else{
+            isLoggedIn = true
+            break
+        }
+    }
+    if(isLoggedIn == false){
+        console.log("UNAUTH")
+        res.redirect("/Login")
+    }
+    else{
+        next()
+    }
+});
+
 router.get('/AddMusic', (req, res) => {
     res.render('add_music', { title: 'Add Music', layout: 'layout' })
     //res.sendFile(__dirname + '/views/add_music.html');

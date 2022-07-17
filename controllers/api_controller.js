@@ -4,7 +4,6 @@ const musicfolder = './musics/';
 const picturefolder = './pictures/';
 var dbops = require('../db_operations')
 var express = require('express');
-var session = require('express-session')
 let alert = require('alert'); 
 var router = express.Router();
 
@@ -69,7 +68,7 @@ router.post('/login',async function (req, res) {
     var resp = await dbops.getFromCollectionbyProperty("Users",result)
     if(resp != null){
       req.session.user = resp
-      req.session.save(function(err) {})
+      utils.sessionId = req.session.id
       res.locals.user = resp
       res.redirect(`/Musics/ListMusics`)
     }

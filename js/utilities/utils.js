@@ -11,7 +11,9 @@ module.exports = {
         let result = await getMetaData(file);
         var fileprops = {path : bitrate + "_"+ file,props : result};
         return fileprops;
-    }
+    },
+
+    sessionId : ""
 }
 
 function removeExt(file){
