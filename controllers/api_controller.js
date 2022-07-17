@@ -1,7 +1,5 @@
 const fs = require('fs');
 const utils = require('../js/utilities/utils')
-const musicfolder = './musics/';
-const picturefolder = './pictures/';
 var dbops = require('../db_operations')
 var express = require('express');
 let alert = require('alert'); 
@@ -21,7 +19,7 @@ router.post('/addMusic', async function(req, res) {
         console.log("music uploaded");
         res.redirect(`/Musics/AddMusic`);
     } catch (error) {
-        alert(error)
+        console.log(error)
     }
   });
 

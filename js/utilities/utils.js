@@ -1,5 +1,7 @@
 const mm = require('music-metadata');
 const spawn = require('await-spawn')
+const musicfolder = './musics/';
+const picturefolder = './pictures/';
 
 module.exports = {
     
