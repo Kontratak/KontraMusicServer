@@ -85,7 +85,7 @@ router.post('/register', function (req, res) {
       password : req.body.password,
       first_name : req.body.first_name,
       last_name : req.body.last_name,
-      isVerified : false
+      isVerified : true
     }
     dbops.insertToCollection("Users",User);
     res.redirect(req.get('referer'));
