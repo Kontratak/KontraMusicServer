@@ -63,7 +63,8 @@ router.post('/addPlaylist', function (req, res) {
 router.post('/login',async function (req, res) {
     var result = {
       email : req.body.email,
-      password : req.body.password
+      password : req.body.password,
+      isVerified : true
     }
     var resp = await dbops.getFromCollectionbyProperty("Users",result)
     if(resp != null){
@@ -73,7 +74,7 @@ router.post('/login',async function (req, res) {
       res.redirect(`/Musics/ListMusics`)
     }
     else{
-      alert("user not found")
+      alert("User is Not Registered or Verified!")
       res.redirect(req.get('referer'))
     }
 });
@@ -83,7 +84,8 @@ router.post('/register', function (req, res) {
       email : req.body.email,
       password : req.body.password,
       first_name : req.body.first_name,
-      last_name : req.body.last_name
+      last_name : req.body.last_name,
+      isVerified : false
     }
     dbops.insertToCollection("Users",User);
     res.redirect(req.get('referer'));
